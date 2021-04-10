@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.example.doropomo.utilidades.Inicio;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,13 +17,22 @@ public class Splash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        /*
+        if(((Inicio)this.getApplication()).getIniciada()==1){
+            Toast.makeText(getBaseContext(), "Genial", Toast.LENGTH_LONG).show();
+        }
+        else{
+            ((Inicio)this.getApplication()).setIniciada(1);
+        }
+        */
+        //((Inicio)this.getApplication()).setIniciada(1);
         Timer t = new Timer();
         t.schedule(new TimerTask() {
 
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(Splash.this, MainActivity.class);
+                Intent intent = new Intent(Splash.this, Bienvenida.class);
                 startActivity(intent);
                 Splash.this.finish();
             }
