@@ -9,24 +9,24 @@ import android.view.View;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Bienvenida extends AppCompatActivity {
+public class ConfiguracionInicial extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bienvenida);
+        setContentView(R.layout.activity_configuracion_inicial);
     }
 
-    public void onclickBtnempezar(View view) {
+    public void onclickBtncontinuar(View view) {
         Timer t = new Timer();
         t.schedule(new TimerTask() {
 
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(Bienvenida.this, ConfiguracionInicial.class);
+                Intent intent = new Intent(ConfiguracionInicial.this, MainActivity.class);
                 startActivity(intent);
-                Bienvenida.this.finish();
+                ConfiguracionInicial.this.finish();
             }
         }, 0);
     }
