@@ -7,33 +7,56 @@
     tools:context=".ConfiguracionInicial">
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Configura el \ntemporizador "
-        android:textColor="#000000"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.235"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="70dp" />
-
-    <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textViewSesion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="8dp"
 
+        android:text="SESIÓN DE TRABAJO"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="#090909"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerSesion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.19"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.927" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Configura el \ntemporizador "
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="268dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="104dp"
+
+        android:lineSpacingExtra="8dp"
         android:text="Establezca sus preferencias de \ntrabajo y descanso"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
         android:textColor="#090909"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerSesion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.339"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="181dp" />
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnempezar3"
@@ -55,9 +78,79 @@
 
     <Spinner
         android:id="@+id/spinnerSesion"
-        android:layout_width="381dp"
-        android:layout_height="27dp"
+        android:layout_width="300dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="56dp"
+        android:entries="@array/SesionTrabajo"
+        android:background="@drawable/spinner"
         android:spinnerMode="dropdown"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="324dp" />
+        app:layout_constraintBottom_toTopOf="@+id/spinnerPausaCorta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerPausaCorta"
+        android:layout_width="300dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="52dp"
+        android:entries="@array/PausaCorta"
+        android:background="@drawable/spinner"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerPausaLarga"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerPausaLarga"
+        android:layout_width="300dp"
+        android:layout_height="37dp"
+        android:layout_marginBottom="80dp"
+        android:entries="@array/PausaLarga"
+        android:background="@drawable/spinner"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/btnempezar3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewPausaLarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8dp"
+
+        android:text="PAUSA LARGA"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="#090909"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerPausaLarga"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerPausaCorta"
+        app:layout_constraintVertical_bias="0.78" />
+
+    <TextView
+        android:id="@+id/textViewPausaCorta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8dp"
+
+        android:text="PAUSA CORTA"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="#090909"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerPausaCorta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.164"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSesion"
+        app:layout_constraintVertical_bias="0.787" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

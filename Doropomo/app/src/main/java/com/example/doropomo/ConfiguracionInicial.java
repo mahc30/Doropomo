@@ -30,4 +30,6 @@ public class ConfiguracionInicial extends AppCompatActivity {
             }
         }, 0);
     }
+
+
 }
