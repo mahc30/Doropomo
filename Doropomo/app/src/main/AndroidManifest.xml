@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Doropomo">
-        <activity android:name=".Configuracion"></activity>
+        <activity android:name=".Configuracion"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" ></activity>
         <activity
             android:name=".ConfiguracionInicial"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
