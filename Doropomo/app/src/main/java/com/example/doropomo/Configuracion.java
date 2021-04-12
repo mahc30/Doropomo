@@ -24,7 +24,7 @@ public class Configuracion extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(Configuracion.this, MainActivity.class);
+                Intent intent = new Intent(Configuracion.this, Temporizador.class);
                 startActivity(intent);
                 Configuracion.this.finish();
             }

@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(MainActivity.this, Configuracion.class);
+                Intent intent = new Intent(MainActivity.this, Temporizador.class);
                 startActivity(intent);
             }
         }, 0);
