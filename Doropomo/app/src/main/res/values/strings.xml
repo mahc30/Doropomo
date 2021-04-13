@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Doropomo</string>
     <string-array name="SesionTrabajo">
+        <item> 1 Minuto</item>
         <item>20 Minutos</item>
         <item>25 Minutos</item>
         <item>30 Minutos</item>
@@ -10,6 +11,7 @@
         <item>60 Minutos</item>
     </string-array>
     <string-array name="PausaCorta">
+        <item> 1 Minuto</item>
         <item>5 Minutos</item>
         <item>10 Minutos</item>
         <item>15 Minutos</item>

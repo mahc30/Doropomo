@@ -7,19 +7,23 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Button;
-import com.example.doropomo.utilidades.Inicio;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Temporizador extends AppCompatActivity {
 
-    private static final long START_TIME_IN_MILLIS = 100000;
+    private final short LIMIT_SHORT_PAUSES = 4;
 
     private TextView mTextViewCountdown;
+    private TextView mTextViewSesionIniciada;
+    private TextView mTextViewFinaliza;
+    private  TextView mTextViewEstado;
 
     private Button mButtonStart;
     private Button mButtonPause;
@@ -29,7 +33,17 @@ public class Temporizador extends AppCompatActivity {
 
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private boolean mIsCurrentlyInBreak = false;
+    private long mTimeLeftInMillis;
+
+    private String sesionTrabajo;
+    private long sesionTrabajoInMillis;
+    private String pausaLarga;
+    private long pausaLargaInMillis;
+    private String pausaCorta;
+    private long pausaCortaInMillis;
+
+    private short mPausesCounter = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +51,10 @@ public class Temporizador extends AppCompatActivity {
         setContentView(R.layout.activity_temporizador);
 
         mTextViewCountdown = findViewById(R.id.txtTimer);
+        mTextViewSesionIniciada = findViewById(R.id.txtTimeSesionIniciada);
+        mTextViewFinaliza = findViewById(R.id.txtTimeSesionFinaliza);
+        mTextViewEstado = findViewById(R.id.txtEstado);
+
         mButtonStart = findViewById(R.id.button_start);
         mButtonPause = findViewById(R.id.button_pause);
         mButtonReset = findViewById(R.id.button_restart);
@@ -79,6 +97,16 @@ public class Temporizador extends AppCompatActivity {
                 openConfigView();
             }
         });
+
+        Bundle bundle = getIntent().getExtras();
+        sesionTrabajo = bundle.getString("SesionTrabajo");
+        pausaCorta = bundle.getString("PausaCorta");
+        pausaLarga = bundle.getString("PausaLarga");
+        format_time();
+        setup();
+        debug();
+        updateCountDownText();
+        updateDetailsText();
     }
 
     private void startTimer(){
@@ -87,12 +115,35 @@ public class Temporizador extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
+                updateDetailsText();
             }
 
             @Override
             public void onFinish() {
                 mTimerRunning = false;
-                showCountDownStoppedButtons();
+
+                if(mIsCurrentlyInBreak){
+                    mTextViewEstado.setText("Sesión de Trabajo");
+                    mTimeLeftInMillis = sesionTrabajoInMillis;
+                }
+                else{
+
+                    if(mPausesCounter <= LIMIT_SHORT_PAUSES){
+                        mTextViewEstado.setText("Descanso corto " + mPausesCounter);
+                        mTimeLeftInMillis = pausaCortaInMillis;
+                        mPausesCounter++;
+                    }
+                    else{
+                        mTextViewEstado.setText("Descanso largo ");
+                        mTimeLeftInMillis = pausaLargaInMillis;
+                        mPausesCounter = 0;
+                    }
+                }
+
+                mIsCurrentlyInBreak = !mIsCurrentlyInBreak;
+                updateCountDownText();
+                updateDetailsText();
+                startTimer();
             }
         }.start();
 
@@ -109,9 +160,20 @@ public class Temporizador extends AppCompatActivity {
     }
 
     private void resetTimer(){
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
 
+        if(mIsCurrentlyInBreak){
+            if(mPausesCounter <= LIMIT_SHORT_PAUSES){
+                mTimeLeftInMillis = pausaCortaInMillis;
+            }
+            else{
+                mTimeLeftInMillis = pausaLargaInMillis;
+            }
+        }
+        else{
+            mTimeLeftInMillis = sesionTrabajoInMillis;
+        }
+        updateCountDownText();
+        updateDetailsText();
         showCountDownStoppedButtons();
     }
 
@@ -141,6 +203,24 @@ public class Temporizador extends AppCompatActivity {
         mTextViewCountdown.setText(timeLeftFormatted);
     }
 
+    private void updateDetailsText(){
+        String formatted_time;
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm aa");
+        formatter.setTimeZone(TimeZone.getTimeZone("GMT-5")); //Colombia Standard Time
+
+        if(mTimeLeftInMillis == sesionTrabajoInMillis){ //Si el countdown no ha iniciado...
+            Date startTime = new Date();
+            formatted_time = formatter.format(startTime);
+            mTextViewSesionIniciada.setText(formatted_time);
+        }
+
+
+        Date finaliza = new Date(new Date().getTime() + mTimeLeftInMillis);
+        formatted_time = formatter.format(finaliza);
+
+        mTextViewFinaliza.setText(formatted_time);
+    }
+
     private void showCountDownStoppedButtons(){
         mButtonPause.setVisibility(View.INVISIBLE);
         mButtonStart.setVisibility(View.VISIBLE);
@@ -153,5 +233,35 @@ public class Temporizador extends AppCompatActivity {
         mButtonStart.setVisibility(View.INVISIBLE);
         mButtonReset.setVisibility(View.INVISIBLE);
         mButtonClean.setVisibility(View.INVISIBLE);
+    }
+
+    private void debug(){
+        Bundle bundle = getIntent().getExtras();
+
+        System.out.println("Debug from temporizador: ");
+        System.out.println("Sesion Trabajo: " + sesionTrabajo);
+        System.out.println("Pausa Corta: " + pausaCorta);
+        System.out.println("Pausa Larga: " + pausaLarga);
+        System.out.println("Sesion Trabajo Millis: " + sesionTrabajoInMillis);
+        System.out.println("Pausa Corta Millis: " + pausaCortaInMillis);
+        System.out.println("Pausa Larga Millis: " + pausaLargaInMillis);
+    }
+
+    private void setup(){
+        mTimeLeftInMillis = sesionTrabajoInMillis;
+    }
+
+    private void format_time(){
+
+        //Formato: <minutos> <label que no nos interesa>
+        // por eso split(" ")[0]
+        sesionTrabajoInMillis = Integer.parseInt(sesionTrabajo.split(" ")[0]);
+        pausaCortaInMillis = Integer.parseInt(pausaCorta.split(" ")[0]);
+        pausaLargaInMillis = Integer.parseInt(pausaLarga.split(" ")[0]);
+
+        // Minutos a Milisegundos
+        sesionTrabajoInMillis *= 60000;
+        pausaCortaInMillis *= 60000;
+        pausaLargaInMillis *= 60000;
     }
 }

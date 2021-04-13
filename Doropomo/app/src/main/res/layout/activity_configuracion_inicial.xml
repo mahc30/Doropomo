@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/txtEstado"
         app:layout_constraintVertical_bias="0.927" />
 
     <TextView
@@ -34,7 +34,7 @@
         android:textColor="#000000"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintBottom_toTopOf="@+id/txtEstado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.235"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +42,7 @@
         app:layout_constraintVertical_bias="0.648" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtEstado"
         android:layout_width="268dp"
         android:layout_height="51dp"
         android:layout_marginBottom="104dp"
@@ -81,8 +81,8 @@
         android:layout_width="300dp"
         android:layout_height="37dp"
         android:layout_marginBottom="56dp"
-        android:entries="@array/SesionTrabajo"
         android:background="@drawable/spinner"
+        android:entries="@array/SesionTrabajo"
         android:spinnerMode="dropdown"
         app:layout_constraintBottom_toTopOf="@+id/spinnerPausaCorta"
         app:layout_constraintEnd_toEndOf="parent"
