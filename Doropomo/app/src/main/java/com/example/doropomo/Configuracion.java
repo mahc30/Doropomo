@@ -17,6 +17,9 @@ public class Configuracion extends AppCompatActivity {
     private Spinner mSpinnerPausaCorta;
     private Spinner mSpinnerPausaLarga;
 
+    private String lastSesionTrabajo;
+    private String lastPausaCorta;
+    private String lastPausaLarga;
     private String sesionTrabajo;
     private String pausaCorta;
     private String pausaLarga;
@@ -25,6 +28,11 @@ public class Configuracion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
+
+        Bundle bundle = getIntent().getExtras();
+        lastSesionTrabajo = bundle.getString("SesionTrabajo");
+        lastPausaCorta = bundle.getString("PausaCorta");
+        lastPausaLarga = bundle.getString("PausaLarga");
 
         mSpinnerSesion = findViewById(R.id.spinnerSesionC);
         mSpinnerPausaCorta = findViewById(R.id.spinnerPausaCortaC);
@@ -75,6 +83,9 @@ public class Configuracion extends AppCompatActivity {
             public void run() {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(Configuracion.this, Temporizador.class);
+                intent.putExtra("SesionTrabajo", lastSesionTrabajo);
+                intent.putExtra("PausaCorta", lastPausaCorta);
+                intent.putExtra("PausaLarga", lastPausaLarga);
                 startActivity(intent);
                 Configuracion.this.finish();
             }

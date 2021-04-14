@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Button;
 
@@ -32,6 +33,7 @@ public class Temporizador extends AppCompatActivity {
     private Button mButtonConfig;
 
     private CountDownTimer mCountDownTimer;
+    private ProgressBar mProgressBar;
     private boolean mTimerRunning;
     private boolean mIsCurrentlyInBreak = false;
     private long mTimeLeftInMillis;
@@ -60,6 +62,8 @@ public class Temporizador extends AppCompatActivity {
         mButtonReset = findViewById(R.id.button_restart);
         mButtonClean = findViewById(R.id.button_clean);
         mButtonConfig = findViewById(R.id.button_config);
+
+        mProgressBar = findViewById(R.id.progressBar);
 
         mButtonPause.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -98,13 +102,7 @@ public class Temporizador extends AppCompatActivity {
             }
         });
 
-        Bundle bundle = getIntent().getExtras();
-        sesionTrabajo = bundle.getString("SesionTrabajo");
-        pausaCorta = bundle.getString("PausaCorta");
-        pausaLarga = bundle.getString("PausaLarga");
-        format_time();
         setup();
-        debug();
         updateCountDownText();
         updateDetailsText();
     }
@@ -114,6 +112,8 @@ public class Temporizador extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
+                mProgressBar.incrementProgressBy(1);
+
                 updateCountDownText();
                 updateDetailsText();
             }
@@ -121,21 +121,27 @@ public class Temporizador extends AppCompatActivity {
             @Override
             public void onFinish() {
                 mTimerRunning = false;
+                mProgressBar.setProgress(0);
+                mProgressBar.refreshDrawableState();
 
                 if(mIsCurrentlyInBreak){
                     mTextViewEstado.setText("Sesión de Trabajo");
                     mTimeLeftInMillis = sesionTrabajoInMillis;
+                    mProgressBar.setMax((int)sesionTrabajoInMillis / 1000);
                 }
                 else{
 
                     if(mPausesCounter <= LIMIT_SHORT_PAUSES){
                         mTextViewEstado.setText("Descanso corto " + mPausesCounter);
                         mTimeLeftInMillis = pausaCortaInMillis;
+                        mProgressBar.setMax((int)pausaCortaInMillis / 1000);
+
                         mPausesCounter++;
                     }
                     else{
                         mTextViewEstado.setText("Descanso largo ");
                         mTimeLeftInMillis = pausaLargaInMillis;
+                        mProgressBar.setMax((int)pausaLargaInMillis / 1000);
                         mPausesCounter = 0;
                     }
                 }
@@ -172,6 +178,8 @@ public class Temporizador extends AppCompatActivity {
         else{
             mTimeLeftInMillis = sesionTrabajoInMillis;
         }
+
+        mProgressBar.setProgress(0);
         updateCountDownText();
         updateDetailsText();
         showCountDownStoppedButtons();
@@ -189,6 +197,9 @@ public class Temporizador extends AppCompatActivity {
             public void run() {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(Temporizador.this, Configuracion.class);
+                intent.putExtra("SesionTrabajo", sesionTrabajo);
+                intent.putExtra("PausaCorta", pausaCorta);
+                intent.putExtra("PausaLarga", pausaLarga);
                 startActivity(intent);
                 Temporizador.this.finish();
             }
@@ -235,20 +246,18 @@ public class Temporizador extends AppCompatActivity {
         mButtonClean.setVisibility(View.INVISIBLE);
     }
 
-    private void debug(){
-        Bundle bundle = getIntent().getExtras();
-
-        System.out.println("Debug from temporizador: ");
-        System.out.println("Sesion Trabajo: " + sesionTrabajo);
-        System.out.println("Pausa Corta: " + pausaCorta);
-        System.out.println("Pausa Larga: " + pausaLarga);
-        System.out.println("Sesion Trabajo Millis: " + sesionTrabajoInMillis);
-        System.out.println("Pausa Corta Millis: " + pausaCortaInMillis);
-        System.out.println("Pausa Larga Millis: " + pausaLargaInMillis);
-    }
-
     private void setup(){
+        Bundle bundle = getIntent().getExtras();
+        sesionTrabajo = bundle.getString("SesionTrabajo");
+        pausaCorta = bundle.getString("PausaCorta");
+        pausaLarga = bundle.getString("PausaLarga");
+
+        format_time();
+
         mTimeLeftInMillis = sesionTrabajoInMillis;
+        mProgressBar.setProgress(0);
+        mProgressBar.setMax((int)sesionTrabajoInMillis / 1000);
+        mProgressBar.setProgress(0);
     }
 
     private void format_time(){
