@@ -142,7 +142,7 @@ public class Temporizador extends AppCompatActivity {
                         mTextViewEstado.setText("Descanso largo ");
                         mTimeLeftInMillis = pausaLargaInMillis;
                         mProgressBar.setMax((int)pausaLargaInMillis / 1000);
-                        mPausesCounter = 0;
+                        mPausesCounter = 1;
                     }
                 }
 
@@ -186,7 +186,13 @@ public class Temporizador extends AppCompatActivity {
     }
 
     private void cleanTimer(){
-
+        //Volver a estado inicial
+        mIsCurrentlyInBreak = false;
+        mPausesCounter = 1;
+        mTextViewEstado.setText("Sesión de Trabajo");
+        mTimeLeftInMillis = sesionTrabajoInMillis;
+        updateCountDownText();
+        updateDetailsText();
     }
 
     private void openConfigView(){
