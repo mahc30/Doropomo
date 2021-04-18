@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConfiguracionInicial">
+    tools:context=".Temporizador">
 
     <TextView
         android:id="@+id/textView7"
@@ -183,9 +183,11 @@
         android:layout_marginStart="372dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="693dp"
         android:background="@drawable/icon_config"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

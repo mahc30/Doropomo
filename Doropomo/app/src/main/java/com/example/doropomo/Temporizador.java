@@ -109,6 +109,12 @@ public class Temporizador extends AppCompatActivity {
 
         mEndTime = System.currentTimeMillis() + mTimeLeftInMillis;
         mTimerRunning = true;
+
+        mProgressBar.setProgress(0);
+        mProgressBar.setMax((int)mTimeLeftInMillis / 1000);
+        mProgressBar.setProgress(0);
+
+
         mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -202,6 +208,9 @@ public class Temporizador extends AppCompatActivity {
             if (mTimerRunning) {
                 mEndTime = prefs.getLong("endTime", 0);
                 mTimeLeftInMillis = mEndTime - System.currentTimeMillis();
+                mProgressBar.setProgress(0);
+                mProgressBar.setMax((int)mTimeLeftInMillis / 1000);
+                mProgressBar.setProgress(0);
 
                 if (mTimeLeftInMillis < 0) {
                     mTimeLeftInMillis = 0;
@@ -316,8 +325,6 @@ public class Temporizador extends AppCompatActivity {
         String pausaCorta = prefs.getString("PausaCorta", "5 minutos");
         String pausaLarga = prefs.getString("PausaLarga", "10 minutos");
 
-
-
         //Formato: <minutos> <label que no nos interesa>
         // por eso split(" ")[0]
         sesionTrabajoInMillis = Integer.parseInt(sesionTrabajo.split(" ")[0]);
@@ -331,8 +338,10 @@ public class Temporizador extends AppCompatActivity {
 
         mTimeLeftInMillis = sesionTrabajoInMillis;
         mProgressBar.setProgress(0);
-        mProgressBar.setMax((int)sesionTrabajoInMillis / 1000);
+        mProgressBar.setMax((int)mTimeLeftInMillis / 1000);
         mProgressBar.setProgress(0);
+
+        mPausesCounter = 1;
 
         updateCountDownText();
         updateDetailsText();
