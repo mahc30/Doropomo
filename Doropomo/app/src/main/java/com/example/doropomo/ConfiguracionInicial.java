@@ -3,6 +3,7 @@ package com.example.doropomo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -77,9 +78,15 @@ public class ConfiguracionInicial extends AppCompatActivity implements AdapterVi
             public void run() {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(ConfiguracionInicial.this, Temporizador.class);
-                intent.putExtra("SesionTrabajo", sesionTrabajo);
-                intent.putExtra("PausaCorta", pausaCorta);
-                intent.putExtra("PausaLarga", pausaLarga);
+                SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+
+                editor.putString("SesionTrabajo", sesionTrabajo);
+                editor.putString("PausaCorta", pausaCorta);
+                editor.putString("PausaLarga", pausaLarga);
+                editor.putBoolean("setEdit", true);
+
+                editor.apply();
                 startActivity(intent);
                 ConfiguracionInicial.this.finish();
             }

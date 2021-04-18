@@ -3,6 +3,7 @@ package com.example.doropomo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -32,9 +33,23 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                Intent intent = new Intent(Splash.this, Bienvenida.class);
-                startActivity(intent);
-                Splash.this.finish();
+                Intent intent;
+                boolean timerRunning = false;
+
+                    SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                    timerRunning = prefs.getBoolean("timerRunning", false);
+
+                    if(timerRunning){
+                        intent = new Intent(Splash.this, Temporizador.class);
+                        prefs.edit().putBoolean("setEdit", false);
+                        prefs.edit().apply();
+                    }
+                    else{
+                        intent = new Intent(Splash.this, Bienvenida.class);
+                    }
+
+                    startActivity(intent);
+                    Splash.this.finish();
             }
         }, 3000);
     }

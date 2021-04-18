@@ -3,6 +3,7 @@ package com.example.doropomo;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,11 +29,6 @@ public class Configuracion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
-
-        Bundle bundle = getIntent().getExtras();
-        lastSesionTrabajo = bundle.getString("SesionTrabajo");
-        lastPausaCorta = bundle.getString("PausaCorta");
-        lastPausaLarga = bundle.getString("PausaLarga");
 
         mSpinnerSesion = findViewById(R.id.spinnerSesionC);
         mSpinnerPausaCorta = findViewById(R.id.spinnerPausaCortaC);
@@ -83,9 +79,6 @@ public class Configuracion extends AppCompatActivity {
             public void run() {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(Configuracion.this, Temporizador.class);
-                intent.putExtra("SesionTrabajo", lastSesionTrabajo);
-                intent.putExtra("PausaCorta", lastPausaCorta);
-                intent.putExtra("PausaLarga", lastPausaLarga);
                 startActivity(intent);
                 Configuracion.this.finish();
             }
@@ -100,9 +93,17 @@ public class Configuracion extends AppCompatActivity {
             public void run() {
                 // TODO Auto-generated method stub
                 Intent intent = new Intent(Configuracion.this, Temporizador.class);
-                intent.putExtra("SesionTrabajo", sesionTrabajo);
-                intent.putExtra("PausaCorta", pausaCorta);
-                intent.putExtra("PausaLarga", pausaLarga);
+
+                SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+
+                editor.putString("SesionTrabajo", sesionTrabajo);
+                editor.putString("PausaCorta", pausaCorta);
+                editor.putString("PausaLarga", pausaLarga);
+                editor.putBoolean("setEdit", true);
+
+                editor.apply();
+
                 startActivity(intent);
                 Configuracion.this.finish();
             }
