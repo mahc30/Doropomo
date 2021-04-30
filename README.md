@@ -4,4 +4,4 @@ Doropomo es un temporizador pomodoro personalizable. La técnica del pomodoro es
 
 [Wireframe](https://www.figma.com/file/lkbaXRA4MxaDAHhJnTlc6y/Doropomo?node-id=2%3A4590)
 
-[Aplicacion Publicada]()
+[Aplicacion Publicada](https://play.google.com/store/apps/details?id=com.example1.doropomo)
